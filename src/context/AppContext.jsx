@@ -1,6 +1,9 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
+// ✅ Letakkan di luar komponen agar berlaku global
+axios.defaults.withCredentials = true;
+
 export const AppContent = createContext();
 
 export const AppContextProvider = (props) => {
@@ -8,13 +11,12 @@ export const AppContextProvider = (props) => {
 
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        setLoading(true); 
-        axios.defaults.withCredentials = true;
+        setLoading(true);
 
         const { data } = await axios.get(`${backendUrl}/api/auth/is-auth`);
 
@@ -29,7 +31,7 @@ export const AppContextProvider = (props) => {
         setIsLoggedin(false);
         setUserData(false);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -43,7 +45,7 @@ export const AppContextProvider = (props) => {
     userData,
     setUserData,
     loading,
-    setLoading, 
+    setLoading,
   };
 
   return (
